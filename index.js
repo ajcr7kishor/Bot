@@ -1,7 +1,8 @@
 var request = require('request');
-var builder = require('botbuilder');
+var builder = require('botbuilder'); 
 var apiairecognizer = require('api-ai-recognizer'); 
-var connector = new builder.ConsoleConnector().listen(); 
+var request = require('request'); 
+var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector); 
 var recognizer = new apiairecognizer('bdafa2ddfd104affb00277dec16dbe94'); 
 var intents = new builder.IntentDialog({ recognizers: [recognizer] }); 
