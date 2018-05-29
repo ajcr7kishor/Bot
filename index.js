@@ -1,7 +1,7 @@
 'use strict';
 const http = require('http');
-const host = 'http://api.apixu.com';
-const wwoApiKey = '031e9ff47c244c51be165319182505';
+const host = `http://api.apixu.com`;
+const ApiKey = `031e9ff47c244c51be165319182505`;
 exports.weatherWebhook = (req, res) => {
   // Get the city and date from the request
   let city = req.body.result.parameters['geo-city']; // city is a required param
@@ -25,8 +25,7 @@ exports.weatherWebhook = (req, res) => {
 function callWeatherApi (city, date) {
   return new Promise((resolve, reject) => {
     // Create the path for the HTTP request to get the weather
-    let path = '/premium/v1/weather.ashx?format=json&num_of_days=1' +
-      '&q=' + encodeURIComponent(city) + '&key=' + wwoApiKey + '&date=' + date;
+    let path = `/v1/current.json?key=${ApiKey}&q=${city}`;
     console.log('API Request: ' + host + path);
     // Make the HTTP request to get the weather
     http.get({host: host, path: path}, (res) => {
