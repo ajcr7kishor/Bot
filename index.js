@@ -1,16 +1,12 @@
 'use strict';
 const http = require('http');
+const request = require('request');
 const host = `http://api.apixu.com`;
 const ApiKey = `031e9ff47c244c51be165319182505`;
-exports.weatherWebhook = (req, res) => {
+exports.WeatherWebhook = (req, res) => {
   // Get the city and date from the request
   let city = req.body.result.parameters['geo-city']; // city is a required param
-  // Get the date for the weather forecast (if present)
-  let date = '';
-  if (req.body.result.parameters['date']) {
-    date = req.body.result.parameters['date'];
-    console.log('Date: ' + date);
-  }
+  
   // Call the weather API
   callWeatherApi(city, date).then((output) => {
     // Return the results of the weather API to API.AI
@@ -23,34 +19,16 @@ exports.weatherWebhook = (req, res) => {
   });
 };
 function callWeatherApi (city, date) {
-  return new Promise((resolve, reject) => {
-    // Create the path for the HTTP request to get the weather
-    let path = `/v1/current.json?key=${ApiKey}&q=${city}`;
-    console.log('API Request: ' + host + path);
-    // Make the HTTP request to get the weather
-    http.get({host: host, path: path}, (res) => {
-      let body = ''; // var to store the response chunks
-      res.on('data', (d) => { body += d; }); // store each response chunk
-      res.on('end', () => {
-        // After all the data has been received parse the JSON for desired data
-        let response = JSON.parse(body);
-        let forecast = response['data']['weather'][0];
-        let location = response['data']['request'][0];
-        let conditions = response['data']['current_condition'][0];
-        let currentConditions = conditions['weatherDesc'][0]['value'];
-        // Create response
-        let output = `Current conditions in the ${location['type']} 
-        ${location['query']} are ${currentConditions} with a projected high of
-        ${forecast['maxtempC']}°C or ${forecast['maxtempF']}°F and a low of 
-        ${forecast['mintempC']}°C or ${forecast['mintempF']}°F on 
-        ${forecast['date']}.`;
-        // Resolve the promise with the output text
-        console.log(output);
-        resolve(output);
-      });
-      res.on('error', (error) => {
-        reject(error);
-      });
+    const wwoApiKey = '031e9ff47c244c51be165319182505';
+    let url = "http://api.apixu.com/v1/current.json?key=031e9ff47c244c51be165319182505&q=" + city; 
+
+    request(url, function (err, response, body) {
+      if(err){
+        console.log('error:', error);
+      } else {
+       let weather = JSON.parse(body)
+       let message = `It's ${weather.main.temp} degrees in ${weather.name}!`;
+       return message;
+      }
     });
-  });
 }
