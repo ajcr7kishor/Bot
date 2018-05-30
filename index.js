@@ -81,7 +81,7 @@ else if (intent === "MovieInfo"){
   }
 
 }
-  let response = " ";
+  let response = info;
   let responseObj = {
                       fulfillmentText: response,
                       fulfillmentMessages:[{text :{text: [info]}}],
