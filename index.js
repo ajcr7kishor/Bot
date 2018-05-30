@@ -3,8 +3,6 @@ const http = require('http');
 const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
-const host = `http://api.apixu.com`;
-const ApiKey = `031e9ff47c244c51be165319182505`;
 const app = express(); 
 
 app.use(bodyParser.urlencoded({
@@ -15,47 +13,85 @@ app.use(bodyParser.json());
 
 app.post('/webhook', function (req, res) {
   // Get the city and date from the request
-  let city = req.body.queryResult.parameters['geo-city']; // city is a required param
-  let message;
-  var w = getWeather(city,message);
- 
+  
+  let intent = req.body.intent.displayName;
+  
+  let info;
+  
+  if(intent === "Weather") {
+    
+    let city = req.body.queryResult.parameters['geo-city']; // city is a required parameter
+    let result;
+    info = getWeather(city);
+
+    
+
+    function cb(err,response,body) {
+      if(err){
+        console.log('error:', error);
+      } else {
+      let weather =  JSON.parse(body); 
+      result  =  `It's ${weather.current.temp_c} degrees in ${weather.location.name}!`;
+      console.log(result);
+    }
+    }
+
+
+    function getWeather (city) {
+        result = undefined;
+        const ApiKey = '031e9ff47c244c51be165319182505';
+        let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
+        let req = request(url, cb);
+        while(result === undefined){
+            require('deasync').runLoopOnce();
+        }
+        return result;
+    }
+
+
+}
+
+else if (intent === "MovieInfo"){
+  let movieName = req.body.queryResult.parameters['MovieName'];
+  let result;
+  info = getinfo(movieName);
+
+  
+
+  function cb(err,response,body) {
+    if(err){
+      console.log('error:', error);
+    } else {
+    let movie =  JSON.parse(body); 
+    result  =  `${movie.Title} is a ${movie.Actors} starer ${movie.Genre} movie, released in ${movie.Year}. It was directed by ${movie.Director}`;
+    
+  }
+  }
+
+
+  function getinfo (MovieName) {
+      result = undefined;
+      const ApiKey = '30f670e4';
+      let url = `http://www.omdbapi.com/?t=${MovieName}&apikey=${ApiKey}`; 
+      let req = request(url, cb);
+      while(result === undefined){
+          require('deasync').runLoopOnce();
+      }
+      return result;
+  }
+
+}
   let response = " ";
- 
   let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{text :{text: [w]}}],
+                      fulfillmentMessages:[{text :{text: [info]}}],
                       source:""
                     }
-  
-  //console.log(responseObj);
-  return res.json(responseObj);
-})
+    return res.json(responseObj);
 
-let result;
+} )
 
-function cb(err,response,body) {
-  if(err){
-    console.log('error:', error);
-  } else {
-  let weather =  JSON.parse(body); 
-   result  =  `It's ${weather.current.temp_c} degrees in ${weather.location.name}!`;
-   console.log(result);
-}
-}
-
-
-function getWeather (city,message) {
-    result = undefined;
-    const wwoApiKey = '031e9ff47c244c51be165319182505';
-    let url = `http://api.apixu.com/v1/current.json?key=${wwoApiKey}&q=${city}`; 
-    let req = request(url, cb);
-    while(result === undefined){
-        require('deasync').runLoopOnce();
-    }
-    return result;
-}
-
-app.listen((process.env.PORT || 8080), () => {
+app.listen((process.env.PORT || 8000), () => {
   console.log("Server is up and running...");
 });
 
