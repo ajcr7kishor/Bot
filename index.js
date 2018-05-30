@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.post('/webhook', function (req, res) {
   // Get the city and date from the request
   
-  let intent = req.body.intent.displayName;
+  let intent = req.body.queryResult.intent.displayName;
   
   let info;
   
