@@ -52,7 +52,7 @@ app.post('/webhook', function (req, res) {
 }
 
 else if (intent === "MovieInfo"){
-  let movieName = req.body.queryResult.parameters['MovieName'];
+  let movieName = req.body.queryResult.parameters['movie'];
   let result;
   info = getinfo(movieName);
 
