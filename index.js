@@ -146,6 +146,7 @@ else if(intent === "route") {
     console.log(desc1);
     console.log(desc2);
     console.log(desc3);
+    }
   }
 
   function tt2(lat1,lon1,lat2,lon2){
@@ -175,7 +176,7 @@ else if(intent === "route") {
 
 
 }
-
+  
 
   else if (intent === "MovieInfo"){
   let movieName = req.body.queryResult.parameters['movie'];
@@ -207,6 +208,7 @@ else if(intent === "route") {
   }
 
 }
+
   let response = info;
   let responseObj = {
                       fulfillmentText: response,
