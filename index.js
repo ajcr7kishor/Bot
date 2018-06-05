@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post('/webhook', function (req, res) {
-  // Get the city and date from the request
+  
   
   let intent = req.body.queryResult.intent.displayName;
   
@@ -31,7 +31,7 @@ app.post('/webhook', function (req, res) {
         console.log('error:', error);
       } else {
       let weather =  JSON.parse(body); 
-      result  =  `It's ${weather.current.temp_c} degrees in ${weather.location.name}!`;
+      result  =  `It's ${weather.current.condition.text} with ${weather.current.temp_c} degrees Celsius in ${weather.location.name}!`;
       console.log(result);
     }
     }
