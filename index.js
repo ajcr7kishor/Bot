@@ -176,7 +176,7 @@ else if(intent === "route") {
 
 }
 
-
+  }
   else if (intent === "MovieInfo"){
   let movieName = req.body.queryResult.parameters['movie'];
   let result;
