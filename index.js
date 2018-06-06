@@ -1,5 +1,5 @@
 //'use strict';
-const http = require('http');
+const https = require('https');
 const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -187,7 +187,7 @@ else if(intent === "route") {
 
   function cb(err,response,body) {
     if(err){
-      console.log('error:', error);
+      console.log('error:', err);
     } else {
     let movie =  JSON.parse(body); 
     result  =  `${movie.Title} is a ${movie.Actors} starer ${movie.Genre} movie, released in ${movie.Year}. It was directed by ${movie.Director}`;
@@ -209,6 +209,57 @@ else if(intent === "route") {
 
 }
 
+
+else if(intent === "Search")
+{
+  let q = req.body.queryResult['queryText'];
+  let result;
+  info = getinfo(q);
+  console.log(info);
+
+  function cb(err,response,body) {
+    if(err){
+      console.log('error:', err);
+    } else {
+    let res =  JSON.parse(body); 
+    result  = res.entities.value[0].description;
+    
+  }
+  }
+  
+  function getinfo(query)
+  {
+    
+    let subscriptionKey = 'b50cbd015e18419ca59bf3b885071f97';
+
+    let host = 'https://api.cognitive.microsoft.com';
+    let path = '/bing/v7.0/entities/';
+    
+    let mkt = 'en-us';
+ 
+    
+    let params = '?mkt=' + mkt + '&q=' + encodeURI(query);
+    
+    var options = {
+     uri : host+path+params,
+     headers : { 'Ocp-Apim-Subscription-Key' : 'b50cbd015e18419ca59bf3b885071f97' ,
+                 'Host' : 'api.cognitive.microsoft.com',
+                 'Content-Type' : 'application/json'
+                }
+
+    };
+    result = undefined;
+    let req = request(options, cb);
+    while(result === undefined){
+        require('deasync').runLoopOnce();
+    }
+    console.log(result);
+    return result;
+
+  }
+  
+
+}
   let response = info;
   let responseObj = {
                       fulfillmentText: response,
@@ -218,6 +269,9 @@ else if(intent === "route") {
     return res.json(responseObj);
 
 } )
+
+
+
 
 app.listen((process.env.PORT || 8000), () => {
   console.log("Server is up and running...");
