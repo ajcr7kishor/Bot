@@ -18,7 +18,7 @@ app.post('/webhook', function (req, res) {
   
   let info;
   
-  if(intent === "Weather") {
+  if(intent === "Weather" || intent === 'Weather_1') {
     
     let city = req.body.queryResult.parameters['geo-city']; // city is a required parameter
     let result;
