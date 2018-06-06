@@ -212,7 +212,8 @@ else if(intent === "route") {
 
 else if(intent === "Search")
 {
-  let q = req.body.queryResult['queryText'];
+  let q = req.body.queryResult.parameters['SearchEntity'];
+  console.log(q);
   let result;
   info = getinfo(q);
   console.log(info);
