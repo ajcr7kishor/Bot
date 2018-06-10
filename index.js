@@ -110,10 +110,13 @@ else if(intent === "route") {
 }
 
   else if(intent === "Traffic") {
-
+    
   let city = req.body.queryResult.parameters['area']; // city is a required parameter
   let result;
   info = traffic1(area);
+
+  
+
   function tt1(err,response,body) {
     if(err){
       console.log('error:', error);
@@ -123,11 +126,9 @@ else if(intent === "route") {
     var lon1  =  `${bodyy.resourcesSets[0].resources[0].bbox[1]}`;
     var lat2  =  `${bodyy.resourcesSets[0].resources[0].bbox[2]}`;
     var lon2  =  `${bodyy.resourcesSets[0].resources[0].bbox[3]}`;
-    tt2(lat1,lon1, lat2, lon2);
+    return tt2(lat1,lon1, lat2, lon2);
     //console.log(result);
-
   }
-
   }
 
   function tt3(err, response, body){
@@ -135,33 +136,35 @@ else if(intent === "route") {
       console.log('error:', error);
     } else {
     var bodyy =  JSON.parse(body); 
-    var desc1  =  `${bodyy.resourcesSets[0].description}`;
-    var desc2  =  `${bodyy.resourcesSets[1].description}`;
-    var desc3  =  `${bodyy.resourcesSets[2].description}`;
+    var answer  =  `${bodyy.resourcesSets[0].description} \n${bodyy.resourcesSets[1].description} $${bodyy.resourcesSets[2].description}`;
+    // var desc2  =  `${bodyy.resourcesSets[1].description}`;
+    // var desc3  =  `${bodyy.resourcesSets[2].description}`;
+    // var answer= des
     console.log(desc1);
     console.log(desc2);
-     console.log(desc3);
-
-    }
+    console.log(desc3);
+    return answer;
   }
 
   function tt2(lat1,lon1,lat2,lon2){
     result = undefined;
     url= "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+lat1+","+lon1+","+lat2+","+lon2+"?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
     let req=request(url,tt3);
-
        while(result === undefined){
         require('deasync').runLoopOnce();
     }
     return result;
- 
+    
   }
+
+
+
   function traffic1 (area) {
       result = undefined;
       // const ApiKey = '031e9ff47c244c51be165319182505';
       // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
       url = "http://dev.virtualearth.net/REST/v1/Locations/"+area+ "?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
-     let req = request(url, tt1);
+      let req = request(url, tt1);
       while(result === undefined){
           require('deasync').runLoopOnce();
       }
@@ -170,8 +173,7 @@ else if(intent === "route") {
 
 
 }
-
-
+  }
   else if (intent === "MovieInfo"){
   let movieName = req.body.queryResult.parameters['movie'];
   let result;
