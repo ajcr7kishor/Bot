@@ -243,7 +243,7 @@ else if(intent === "Search")
 
 else{
     var query=req.body.queryResult;
-     result;
+     return query;
     info= searchinfo(query);
 
     // function searchCall(err,response,body){
