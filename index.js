@@ -217,6 +217,7 @@ else if(intent === "Search")
 
   function getinfo(query)
   {
+
     let subscriptionKey = 'b50cbd015e18419ca59bf3b885071f97';
     let host = 'https://api.cognitive.microsoft.com';
     let path = '/bing/v7.0/entities/';
@@ -244,7 +245,10 @@ else if(intent === "Search")
 else{
     var query=req.body.queryResult;
      result;
+    return query;
     info= searchinfo(query);
+    console.log(info);
+//     return info;
 
     // function searchCall(err,response,body){
     //   if(err){
