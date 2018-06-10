@@ -12,20 +12,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post('/webhook', function (req, res) {
-  
-  
+
   let intent = req.body.queryResult.intent.displayName;
-  
-  let info;
-  
-  if(intent === "Weather" || intent === 'Weather_1') {
-    
+
+  let info; 
+
+  if(intent === "Weather" || intent === 'Weather_1') {   
+
     let city = req.body.queryResult.parameters['geo-city']; // city is a required parameter
     let result;
-    info = getWeather(city);
-
-    
-
+    info = getWeather(city); 
     function cb(err,response,body) {
       if(err){
         console.log('error:', error);
@@ -35,7 +31,6 @@ app.post('/webhook', function (req, res) {
       console.log(result);
     }
     }
-
 
     function getWeather (city) {
         result = undefined;
@@ -48,22 +43,18 @@ app.post('/webhook', function (req, res) {
         }
         return result;
     }
-
-
 }
 
 else if(intent === "route") {
-    
-  let fromPlace = req.body.queryResult.parameters['FromPlace']; // city is a required parameter
-  let toPlace= req.body.queryResult.parameters['ToPlace'];
-  let path;
+    let fromPlace = req.body.queryResult.parameters['FromPlace']; // city is a required parameter
+      let toPlace= req.body.queryResult.parameters['ToPlace'];
+
+ let path;
   if (req.body.queryResult.parameters['TravelWay']){
     path= req.body.queryResult.parameters['TravelWay'];
   }
   let result;
   info = getRoute(fromPlace,toPlace,path); //Done till here
-
-  
 
   function route (err,response,body) {
     if(err){
@@ -79,19 +70,28 @@ else if(intent === "route") {
     {
       console.log(detail.instruction.text);
     }
-  }
+
   }
 
-
+  }
   function getRoute (fromPlace, toPlace, path) {
+
       // result = undefined;
+
       // const ApiKey = '031e9ff47c244c51be165319182505';
+
       // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
+
       // let req = request(url, cb);
+
       // while(result === undefined){
+
       //     require('deasync').runLoopOnce();
+
       // }
+
       // return result;
+
       reuslt= undefined;
       const Apikey='AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU';
       if (path){
@@ -101,26 +101,19 @@ else if(intent === "route") {
         url = "http://dev.virtualearth.net/REST/v1/Routes?wp.0="+fromPlace+ "&wp.1="+ toPlace+ "&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
       }
       let req = request(url, route);
-
         while(result === undefined){
             require('deasync').runLoopOnce();
         }
         return result;
-
   }
-
 
 }
 
-
   else if(intent === "Traffic") {
-    
+
   let city = req.body.queryResult.parameters['area']; // city is a required parameter
   let result;
   info = traffic1(area);
-
-  
-
   function tt1(err,response,body) {
     if(err){
       console.log('error:', error);
@@ -132,7 +125,9 @@ else if(intent === "route") {
     var lon2  =  `${bodyy.resourcesSets[0].resources[0].bbox[3]}`;
     tt2(lat1,lon1, lat2, lon2);
     //console.log(result);
+
   }
+
   }
 
   function tt3(err, response, body){
@@ -145,7 +140,8 @@ else if(intent === "route") {
     var desc3  =  `${bodyy.resourcesSets[2].description}`;
     console.log(desc1);
     console.log(desc2);
-    console.log(desc3);
+     console.log(desc3);
+
     }
   }
 
@@ -153,21 +149,19 @@ else if(intent === "route") {
     result = undefined;
     url= "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+lat1+","+lon1+","+lat2+","+lon2+"?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
     let req=request(url,tt3);
+
        while(result === undefined){
         require('deasync').runLoopOnce();
     }
     return result;
-    
+ 
   }
-
-
-
   function traffic1 (area) {
       result = undefined;
       // const ApiKey = '031e9ff47c244c51be165319182505';
       // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
       url = "http://dev.virtualearth.net/REST/v1/Locations/"+area+ "?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
-      let req = request(url, tt1);
+     let req = request(url, tt1);
       while(result === undefined){
           require('deasync').runLoopOnce();
       }
@@ -182,19 +176,14 @@ else if(intent === "route") {
   let movieName = req.body.queryResult.parameters['movie'];
   let result;
   info = getinfo(movieName);
-
-  
-
   function cb(err,response,body) {
     if(err){
       console.log('error:', err);
     } else {
     let movie =  JSON.parse(body); 
     result  =  `${movie.Title} is a ${movie.Actors} starer ${movie.Genre} movie, released in ${movie.Year}. It was directed by ${movie.Director}`;
-    
   }
   }
-
 
   function getinfo (MovieName) {
       result = undefined;
@@ -206,9 +195,7 @@ else if(intent === "route") {
       }
       return result;
   }
-
 }
-
 
 else if(intent === "Search")
 {
@@ -224,43 +211,105 @@ else if(intent === "Search")
     } else {
     let res =  JSON.parse(body); 
     result  = res.entities.value[0].description;
-    
+
   }
   }
-  
+
   function getinfo(query)
   {
-    
     let subscriptionKey = 'b50cbd015e18419ca59bf3b885071f97';
-
     let host = 'https://api.cognitive.microsoft.com';
     let path = '/bing/v7.0/entities/';
-    
     let mkt = 'en-us';
- 
-    
     let params = '?mkt=' + mkt + '&q=' + encodeURI(query);
-    
     var options = {
      uri : host+path+params,
      headers : { 'Ocp-Apim-Subscription-Key' : 'b50cbd015e18419ca59bf3b885071f97' ,
                  'Host' : 'api.cognitive.microsoft.com',
                  'Content-Type' : 'application/json'
                 }
-
     };
     result = undefined;
     let req = request(options, cb);
     while(result === undefined){
-        require('deasync').runLoopOnce();
+       require('deasync').runLoopOnce();
     }
     console.log(result);
     return result;
-
   }
-  
 
 }
+
+
+else{
+    var query=req.body.queryResult;
+     result;
+    info= searchinfo(query);
+
+    // function searchCall(err,response,body){
+    //   if(err){
+    //     console.log('error:', error);
+    //   } else {
+    //   let body =  JSON.parse(body);
+    //   result= `${body.webPages.value[0].snippet} \nTo read further: ${body.webPages.value[0].url}`;
+
+    //   }
+    // }
+
+    let response_handler = function (response) {
+      var body = '';
+      response.on('data', function (d) {
+          body += d;
+        
+      });
+      response.on('end', function () {
+        
+          body = JSON.parse(body);
+          let result=`${body.webPages.value[0].snippet} \nTo read further, checkout: ${body.webPages.value[0].url}`;
+          return result;
+          // result +=`\nTo read further, checkout: ${body.webPages.value[0].url}`;
+      });
+      response.on('error', function (e) {
+          console.log('Error: ' + e.message);
+      });
+  };
+
+    function searchinfo (query) {
+      result = undefined;
+      // const ApiKey = '30f670e4';
+      // let url = `http://www.omdbapi.com/?t=${MovieName}&apikey=${ApiKey}`; 
+            
+      let subscriptionKey = 'cc196f4baa8044c5bdaf1a715cd49c90';
+
+      let host = 'api.cognitive.microsoft.com';
+      let path = '/bing/v7.0/search';
+
+      let bing_web_search = function (search) {
+        console.log('Searching the Web for: ' + query);
+        let request_params = {
+              method : 'GET',
+              hostname : host,
+              path : path + '?q=' + encodeURIComponent(search),
+              headers : {
+                  'Ocp-Apim-Subscription-Key' : subscriptionKey,
+              }
+          };
+      
+          let req = https.request(request_params, response_handler);
+          return req;
+          req.end();
+          //return req;
+    }
+
+
+      let req = request(url, cb);
+      while(result === undefined){
+          require('deasync').runLoopOnce();
+      }
+      return result;
+  }
+
+  }
   let response = info;
   let responseObj = {
                       fulfillmentText: response,
@@ -269,12 +318,19 @@ else if(intent === "Search")
                     }
     return res.json(responseObj);
 
-} )
+} 
 
+  let response = info;
+  let responseObj = {
+                      fulfillmentText: response,
+                      fulfillmentMessages:[{text :{text: [info]}}],
+                      source:""
+                    }
 
-
+    return res.json(responseObj);
+} 
+)
 
 app.listen((process.env.PORT || 8000), () => {
   console.log("Server is up and running...");
 });
-
