@@ -55,7 +55,7 @@ else if(intent === "route") {
     
   let fromPlace = req.body.queryResult.parameters['FromPlace']; // city is a required parameter
   let toPlace= req.body.queryResult.parameters['ToPlace'];
-  let path;
+  let path='driving';
   if (req.body.queryResult.parameters['TravelWay']){
     path= req.body.queryResult.parameters['TravelWay'];
   }
@@ -68,41 +68,22 @@ else if(intent === "route") {
     if(err){
       console.log('error:', error);
     } else {
-    let body =  JSON.parse(body); 
-    travelDistance = body.resourceSets[0].travelDistance;
-    travelTime= body.resourceSets[0].travelTime;
-    result  =  `It's ${body.resourceSets[0].travelDistance} kms and you will approximately take ${body.resourceSets[0].travelTime} time to reach there.`;
+    let bodyy =  JSON.parse(body); 
+    travelDistance = bodyy.resourceSets[0].resources[0].travelDistance;
+    travelTime= bodyy.resourceSets[0].resources[0].travelDuration;
+    startDirection=bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[0].instruction.text;//.text;
+    console.log(travelDistance);
+    console.log(travelTime);
+   // console.log(result);
+   console.log(startDirection);
+    return travelTime;
+    //let commonPart= bodyy.resourceSets[0];//.routelegs[0].itineraryItems[0];
+   var  result  =  `It's ${bodyy.resourceSets[0].resources[0].travelDistance} kms and you will approximately take ${bodyy.resourceSets[0].resources[0].travelTime} time to reach there.\nStart by going ${bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[0].instruction.text}`;
     console.log(result);
-    let commonPart= body.resourceSets[0].routelegs[0].itineraryItems[0];
-    for (var detail in commonPart.details) 
-    {
-      console.log(detail.instruction.text);
-    }
+    return result;
   }
   }
 
-
-  function getRoute (fromPlace, toPlace, path) {
-     
-      result= undefined;
-      const Apikey='AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU';
-      if (path){
-        url = "http://dev.virtualearth.net/REST/v1/Routes/"+path+ "?wp.0="+fromPlace+ "&wp.1="+ toPlace+ "&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
-      }
-      else{
-        url = "http://dev.virtualearth.net/REST/v1/Routes?wp.0="+fromPlace+ "&wp.1="+ toPlace+ "&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
-      }
-      let req = request(url, route);
-
-        while(result === undefined){
-            require('deasync').runLoopOnce();
-        }
-        return result;
-
-  }
-
-
-}
 
 
   else if(intent === "Traffic") {
