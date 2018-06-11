@@ -15,8 +15,8 @@ app.post('/webhook', function (req, res) {
   
   
   let intent = req.body.queryResult.intent.displayName;
-  
-  let info;
+  console.log(intent);
+
   
   if(intent === "Weather" || intent === 'Weather_1') {
     
@@ -24,18 +24,16 @@ app.post('/webhook', function (req, res) {
     let result;
     info = getWeather(city);
 
-    
-
     function cb(err,response,body) {
       if(err){
         console.log('error:', error);
       } else {
       let weather =  JSON.parse(body); 
+      console.log(weather);
       result  =  `It's ${weather.current.condition.text} with ${weather.current.temp_c} degrees Celsius in ${weather.location.name}!`;
       console.log(result);
     }
     }
-
 
     function getWeather (city) {
         result = undefined;
@@ -84,15 +82,8 @@ else if(intent === "route") {
 
 
   function getRoute (fromPlace, toPlace, path) {
-      // result = undefined;
-      // const ApiKey = '031e9ff47c244c51be165319182505';
-      // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
-      // let req = request(url, cb);
-      // while(result === undefined){
-      //     require('deasync').runLoopOnce();
-      // }
-      // return result;
-      reuslt= undefined;
+     
+      result= undefined;
       const Apikey='AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU';
       if (path){
         url = "http://dev.virtualearth.net/REST/v1/Routes/"+path+ "?wp.0="+fromPlace+ "&wp.1="+ toPlace+ "&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
@@ -230,9 +221,6 @@ else if(intent === "Search")
   
   function getinfo(query)
   {
-    
-    let subscriptionKey = 'b50cbd015e18419ca59bf3b885071f97';
-
     let host = 'https://api.cognitive.microsoft.com';
     let path = '/bing/v7.0/entities/';
     
@@ -243,7 +231,7 @@ else if(intent === "Search")
     
     var options = {
      uri : host+path+params,
-     headers : { 'Ocp-Apim-Subscription-Key' : 'b50cbd015e18419ca59bf3b885071f97' ,
+     headers : { 'Ocp-Apim-Subscription-Key' : '796f4fd405f94cfea639e68250ed99d5' ,
                  'Host' : 'api.cognitive.microsoft.com',
                  'Content-Type' : 'application/json'
                 }
@@ -260,6 +248,68 @@ else if(intent === "Search")
   }
   
 
+}
+
+else if( intent === "Recommendations")
+{
+  let result;
+  let q = req.body.queryResult.queryText;
+  info = getinfo(q);
+  console.log(info);
+  let response = "Here's some recommendation for you";
+  let responseObj = {
+                      fulfillmentText: response,
+                      fulfillmentMessages:[{
+                        "card": {
+                          "title": "card title",
+                          "subtitle": "card text",
+                          "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                          "buttons": [
+                            {
+                              "text": "button text",
+                              "postback": "https://assistant.google.com/"
+                            }
+                          ]
+                        }
+                      }],
+                      source:""
+                    }
+
+  return res.json(responseObj); 
+
+  function cb(err,response,body) {
+    if(err){
+      console.log('error:', err);
+    } else {
+    let res =  JSON.parse(body); 
+    result  = res.places;
+    
+  }
+  }
+  
+  function getinfo(query)
+  {
+    let host = 'https://api.cognitive.microsoft.com';
+    let path = '/bing/v7.0/entities/';
+    let mkt = 'en-us';
+    let params = '?mkt=' + mkt + '&q=' + encodeURI(query);
+    
+    var options = {
+     uri : host+path+params,
+     headers : { 'Ocp-Apim-Subscription-Key' : '796f4fd405f94cfea639e68250ed99d5' ,
+                 'Host' : 'api.cognitive.microsoft.com',
+                 'Content-Type' : 'application/json'
+                }
+
+    };
+    result = undefined;
+    let req = request(options, cb);
+    while(result === undefined){
+        require('deasync').runLoopOnce();
+    }
+    console.log(result);
+    return result;
+  }
 }
   let response = info;
   let responseObj = {
