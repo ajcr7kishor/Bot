@@ -83,27 +83,48 @@ else if(intent === "route") {
     return result;
   }
   }
+  function getRoute (fromPlace, toPlace, path) {
+      var url;
+      reuslt= undefined;
+      const Apikey='AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU';
+      
+      url = "http://dev.virtualearth.net/REST/v1/Routes/"+path+ "?wp.0="+fromPlace+ "&wp.1="+ toPlace+ "&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
+      console.log(url);
+      let req = request(url, route);
+
+        while(result === undefined){
+            require('deasync').runLoopOnce();
+        }
+        return result;
+  }
+
+}
 
 
-
-  else if(intent === "Traffic") {
+else if(intent === "Traffic") {
     
   let city = req.body.queryResult.parameters['area']; // city is a required parameter
   let result;
-  info = traffic1(area);
-
-  
+  info = traffic1(city);
 
   function tt1(err,response,body) {
     if(err){
       console.log('error:', error);
     } else {
     var bodyy =  JSON.parse(body); 
-    var lat1  =  `${bodyy.resourcesSets[0].resources[0].bbox[0]}`;
-    var lon1  =  `${bodyy.resourcesSets[0].resources[0].bbox[1]}`;
-    var lat2  =  `${bodyy.resourcesSets[0].resources[0].bbox[2]}`;
-    var lon2  =  `${bodyy.resourcesSets[0].resources[0].bbox[3]}`;
-    tt2(lat1,lon1, lat2, lon2);
+    var lat1  =  bodyy.resourceSets[0].resources[0].bbox[0]; //bbox[1];
+    console.log(lat1);
+   // console.log(lat1);
+   var lon1  =  bodyy.resourceSets[0].resources[0].bbox[1];
+   var lat2  =  bodyy.resourceSets[0].resources[0].bbox[2];
+   var lon2  =  bodyy.resourceSets[0].resources[0].bbox[3];
+   // var lon1  =  bodyy.resourcesSets[0].resources[0].bbox[1];
+    console.log(lon1);
+    console.log(lat2);
+    console.log(lon2);
+   // var lat2  =  bodyy.resourcesSets[0].resources[0].bbox[2];
+   // var lon2  =  bodyy.resourcesSets[0].resources[0].bbox[3];
+   return tt2(lat1,lon1, lat2, lon2);
     //console.log(result);
   }
   }
@@ -113,27 +134,30 @@ else if(intent === "route") {
       console.log('error:', error);
     } else {
     var bodyy =  JSON.parse(body); 
-    var desc1  =  `${bodyy.resourcesSets[0].description}`;
-    var desc2  =  `${bodyy.resourcesSets[1].description}`;
-    var desc3  =  `${bodyy.resourcesSets[2].description}`;
-    console.log(desc1);
-    console.log(desc2);
-    console.log(desc3);
-    }
+    var answer= "Traffic conditions are:\n"
+    answer  =  bodyy.resourceSets[0].resources[0]['description']+ "\n";//${bodyy.resourceSets[0].resources[1].description} $${bodyy.resourceSets[0].resources[2].description}`;
+    answer += bodyy.resourceSets[0].resources[1]['description']+"\n";
+    answer += bodyy.resourceSets[0].resources[2]['description']+"\n";
+    console.log(answer);
+  
+    return answer;
   }
+}
 
   function tt2(lat1,lon1,lat2,lon2){
+    console.log(lon1);
+    console.log(lat2);
+    console.log(lon2);
     result = undefined;
     url= "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+lat1+","+lon1+","+lat2+","+lon2+"?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
+    console.log(url);
     let req=request(url,tt3);
        while(result === undefined){
         require('deasync').runLoopOnce();
     }
-    return result;
+   // return result;
     
   }
-
-
 
   function traffic1 (area) {
       result = undefined;
@@ -144,12 +168,11 @@ else if(intent === "route") {
       while(result === undefined){
           require('deasync').runLoopOnce();
       }
-      return result;
+     // return result;
   }
 
 
-}
-
+  }
 
   else if (intent === "MovieInfo"){
   let movieName = req.body.queryResult.parameters['movie'];
