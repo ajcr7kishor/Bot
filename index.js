@@ -80,7 +80,7 @@ else if(intent === "route") {
     //let commonPart= bodyy.resourceSets[0];//.routelegs[0].itineraryItems[0];
       var i = 0;
       var length= bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
-      result  =  `ROUTES` +length +`////It's ${bodyy.resourceSets[0].resources[0].travelDistance} kms and you will approximately take` + travelTime+ ` mins to reach there.////`;
+      result  =  `ROUTES` +length +`####It's ${bodyy.resourceSets[0].resources[0].travelDistance} kms and you will approximately take` + travelTime+ ` mins to reach there.####`;
    
       //console.log(length);
     // while (i+1)
@@ -88,7 +88,7 @@ else if(intent === "route") {
             //console.log(itineraryItem);
             //if (itineraryItem.startsWith("instruction") )
       for (i=0; i< length; i++){
-        result+= bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[0]+";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[1] +";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text+"///";
+        result+= bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[0]+";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[1] +";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text+"###";
         //console.log(bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text);
       }
                    
