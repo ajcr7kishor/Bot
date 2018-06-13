@@ -374,6 +374,7 @@ else{
                       source:"",
                       payload : info
                     }
+     return res.json(responseObj);
   }
   else
   {
@@ -382,9 +383,9 @@ else{
       fulfillmentMessages:[{text :{text: [info]}}],
       source:""
     }
-
+    return res.json(responseObj);
   }
-  return res.json(responseObj);
+  
 
 });
 
