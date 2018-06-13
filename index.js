@@ -370,22 +370,10 @@ else{
     response = "Here's some recommendation for you";
     let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{
-                        "card": {
-                        "title": "card title",
-                        "subtitle": "card text",
-                        "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                        "buttons": [
-                          {
-                            "text": "button text",
-                            "postback": "https://assistant.google.com/"
-                          }
-                        ]
-                      }}],
+                      fulfillmentMessages:[{text :{text: [response]}}],
                       source:"",
                       payload : info
                     }
-    return res.json(responseObj);
   }
   else
   {
@@ -394,9 +382,9 @@ else{
       fulfillmentMessages:[{text :{text: [info]}}],
       source:""
     }
-    return res.json(responseObj);
 
   }
+  return res.json(responseObj);
 
 });
 
