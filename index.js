@@ -394,6 +394,7 @@ else{
       fulfillmentMessages:[{text :{text: [info]}}],
       source:""
     }
+    return res.json(responseObj);
 
   }
 
