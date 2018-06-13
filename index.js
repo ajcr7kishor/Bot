@@ -70,6 +70,7 @@ else if(intent === "route") {
     let bodyy =  JSON.parse(body); 
     travelDistance = bodyy.resourceSets[0].resources[0].travelDistance;
     travelTime= bodyy.resourceSets[0].resources[0].travelDuration;
+    travelTime= travelTime/60;
     startDirection=bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[0].instruction.text;//.text;
     console.log(travelDistance);
     console.log(travelTime);
@@ -77,7 +78,23 @@ else if(intent === "route") {
    console.log(startDirection);
     
     //let commonPart= bodyy.resourceSets[0];//.routelegs[0].itineraryItems[0];
-    result  =  `It's ${bodyy.resourceSets[0].resources[0].travelDistance} kms and you will approximately take ${bodyy.resourceSets[0].resources[0].travelDuration} time to reach there.\nFollow the following Steps:\n${bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[0].instruction.text}\n${bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[1].instruction.text}`;
+      var i = 0;
+      var length= bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
+      result  =  `ROUTES` +length +`////It's ${bodyy.resourceSets[0].resources[0].travelDistance} kms and you will approximately take` + travelTime+ ` mins to reach there.////`;
+   
+      //console.log(length);
+    // while (i+1)
+            // header keys are lower-cased by Node.js
+            //console.log(itineraryItem);
+            //if (itineraryItem.startsWith("instruction") )
+      for (i=0; i< length; i++){
+        result+= bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[0]+";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].maneuverPoint.coordinates[1] +";"+ bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text+"///";
+        //console.log(bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text);
+      }
+                   
+
+
+   // ${bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[0].instruction.text}\n${bodyy.resourceSets[0].resources[0].routeLegs[0].itineraryItems[1].instruction.text}`;
     console.log(result);
     
   }
@@ -370,11 +387,22 @@ else{
     response = "Here's some recommendation for you";
     let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{text :{text: [response]}}],
+                      fulfillmentMessages:[{
+                        "card": {
+                        "title": "card title",
+                        "subtitle": "card text",
+                        "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                        "buttons": [
+                          {
+                            "text": "button text",
+                            "postback": "https://assistant.google.com/"
+                          }
+                        ]
+                      }}],
                       source:"",
                       payload : info
                     }
-     return res.json(responseObj);
+    return res.json(responseObj);
   }
   else
   {
@@ -384,8 +412,8 @@ else{
       source:""
     }
     return res.json(responseObj);
+
   }
-  
 
 });
 
