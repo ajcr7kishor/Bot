@@ -130,9 +130,9 @@ else if(intent === "Traffic") {
       console.log('error:', error);
     } else {
     var bodyy =  JSON.parse(body); 
-    res= "Traffic conditions are:\n"
-    res  =  bodyy.resourceSets[0].resources[0]['description']+ "\n";//${bodyy.resourceSets[0].resources[1].description} $${bodyy.resourceSets[0].resources[2].description}`;
-    res += bodyy.resourceSets[0].resources[1]['description']+"\n";
+    res= "Traffic conditions are:~~~\n"
+    res  =  bodyy.resourceSets[0].resources[0]['description']+ "\n~~";//${bodyy.resourceSets[0].resources[1].description} $${bodyy.resourceSets[0].resources[2].description}`;
+    res += bodyy.resourceSets[0].resources[1]['description']+"\n~~";
     res += bodyy.resourceSets[0].resources[2]['description']+"\n";
     
   }
@@ -370,19 +370,7 @@ else{
     response = "Here's some recommendation for you";
     let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{
-                        "card": {
-                          "title": "card title",
-                          "subtitle": "card text",
-                          "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                          "buttons": [
-                            {
-                              "text": "button text",
-                              "postback": "https://assistant.google.com/"
-                            }
-                          ]
-                        }
-                      }],
+                      fulfillmentMessages:[{text :{text: [response]}}],
                       source:"",
                       payload : info
                     }
