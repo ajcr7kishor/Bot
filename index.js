@@ -366,13 +366,25 @@ else{
 
   let response = info;
   if(intent === "Recommendations")
-  response = "Here's some recommendation for you";
-  let responseObj = {
+  {
+    response = "Here's some recommendation for you";
+    let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{text :{text: [info]}}],
-                      source:""
+                      fulfillmentMessages:[{text :{text: [response]}}],
+                      source:"",
+                      payload : info
                     }
     return res.json(responseObj);
+  }
+  else
+  {
+    let responseObj = {
+      fulfillmentText: response,
+      fulfillmentMessages:[{text :{text: [info]}}],
+      source:""
+    }
+
+  }
 
 });
 
