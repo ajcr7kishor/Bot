@@ -386,7 +386,7 @@ else{
   {
     response = "Here's some recommendation for you";
     let responseObj = {
-                      fulfillmentText: info,
+                      fulfillmentText: JSON.stringify(info),
                       fulfillmentMessages:[
                         {text :{text: info}}
                       ],
