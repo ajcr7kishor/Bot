@@ -388,7 +388,7 @@ else{
     let responseObj = {
                       fulfillmentText: response,
                       fulfillmentMessages:[{
-                        text :{text: [response]}}],
+                       info}],
                       source:"",
                       payload : info
                     }
