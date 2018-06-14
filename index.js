@@ -387,9 +387,9 @@ else{
     response = "Here's some recommendation for you";
     let responseObj = {
                       fulfillmentText: response,
-                      fulfillmentMessages:[{
+                      fulfillmentMessages:[
                         object(info)
-                      }],
+                      ],
                       source:"",
                       payload : info
                     }
