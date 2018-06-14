@@ -259,7 +259,7 @@ else if(intent === "Search")
 
 else if( intent === "Recommendations")
 {
-  let result ;
+  let result;
   let q = req.body.queryResult.queryText;
   
   info = getreco(q);
@@ -292,7 +292,7 @@ else if( intent === "Recommendations")
     let res =  JSON.parse(body); 
     
     result  = res.places;
-    //console.log(result);
+    console.log(result);
   }
   }
   
@@ -317,7 +317,7 @@ else if( intent === "Recommendations")
     while(result === undefined){
         require('deasync').runLoopOnce();
     }
-    //console.log(result);
+    console.log(result);
     return result;
   }
 }
@@ -380,7 +380,7 @@ else{
     
   }
 }
-  console.log(info[0]);
+
   let response = info;
   if(intent === "Recommendations")
   {
@@ -388,7 +388,7 @@ else{
     let responseObj = {
                       fulfillmentText: JSON.stringify(info),
                       fulfillmentMessages:[
-                        {text :{text: JSON.stringify(info)}}
+                        {text :{text: [JSON.stringify(info)]}}
                       ],
                       source:"",
                       payload : info
