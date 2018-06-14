@@ -259,7 +259,7 @@ else if(intent === "Search")
 
 else if( intent === "Recommendations")
 {
-  let result = [];
+  let result ;
   let q = req.body.queryResult.queryText;
   
   info = getreco(q);
@@ -291,7 +291,7 @@ else if( intent === "Recommendations")
     } else {
     let res =  JSON.parse(body); 
     
-    result  = res.places.value;
+    result  = res.places;
     //console.log(result);
   }
   }
