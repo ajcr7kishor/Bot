@@ -381,11 +381,11 @@ else{
   if(intent === "Recommendations")
   {
     let result = {
-      restaurants : info 
+      "restaurants" : info 
     };
     response = "Here's some recommendation for you";
     let responseObj = {
-                      fulfillmentText: [JSON.stringify(result)],
+                      fulfillmentText: JSON.stringify(result),
                       fulfillmentMessages:[
                         {text :{text: [JSON.stringify(result)]}}
                       ],
