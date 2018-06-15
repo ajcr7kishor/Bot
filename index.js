@@ -287,7 +287,7 @@ else if( intent === "Recommendations")
     } else {
     let res =  JSON.parse(body); 
     
-    result  = res.restaurants;
+    result  = res;
     console.log(result);
   }
   }
@@ -380,14 +380,11 @@ else{
   let response = info;
   if(intent === "Recommendations")
   {
-    let result = {
-      "restaurants" : {info} 
-    };
     response = "Here's some recommendation for you";
     let responseObj = {
-                      fulfillmentText: JSON.stringify(result),
+                      fulfillmentText: [JSON.stringify(info)],
                       fulfillmentMessages:[
-                        {text :{text: [JSON.stringify(result)]}}
+                        {text :{text: [JSON.stringify(info)]}}
                       ],
                       source:"",
                       payload : info
