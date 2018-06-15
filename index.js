@@ -118,12 +118,26 @@ else if(intent === "route") {
 
 }
 
+
 else if(intent === "Traffic") {
     
-  let city = req.body.queryResult.parameters['area']; // city is a required parameter
+  let city = req.body.queryResult.parameters['area']; 
+  //return city;
+  console.log(city);
+  //return city;// city is a required parameter
   let result;
   let res=undefined;
-  info = traffic1(city);
+  if (city === undefined ){
+    let latitude = req.body.queryResult.parameters['latitude']; 
+    let longitude = req.body.queryResult.parameters['longitude']; 
+    console.log("tt3");
+    //return "tt3";
+    info=tt2(latitude-0.5, longitude-0.5, latitude+0.5, longitude+0.5);
+    
+  }
+  else{
+    info = traffic1(city);
+  }  
 
   function tt1(err,response,body) {
     if(err){
@@ -147,10 +161,15 @@ else if(intent === "Traffic") {
       console.log('error:', error);
     } else {
     var bodyy =  JSON.parse(body); 
-    res= "Traffic conditions are:~~~\n"
-    res  =  bodyy.resourceSets[0].resources[0]['description']+ "\n~~";//${bodyy.resourceSets[0].resources[1].description} $${bodyy.resourceSets[0].resources[2].description}`;
-    res += bodyy.resourceSets[0].resources[1]['description']+"\n~~";
-    res += bodyy.resourceSets[0].resources[2]['description']+"\n";
+    res= "TRAFFIC///"
+    var len=bodyy.resourceSets[0].resources.length;
+    for (var i=0; i<len ;i++){
+      res+=bodyy.resourceSets[0].resources[i].point.coordinates[0]+";"+bodyy.resourceSets[0].resources[i].point.coordinates[1]+";"+bodyy.resourceSets[0].resources[i]['description']+";"+bodyy.resourceSets[0].resources[i]['detour']+"///";
+    }
+    if (res===null){
+      res="Sorry can't help you with that";
+    }
+    
     
   }
 }
@@ -180,8 +199,6 @@ else if(intent === "Traffic") {
 
 
   }
-
-
   else if (intent === "MovieInfo"){
   let movieName = req.body.queryResult.parameters['movie'];
   let result;
