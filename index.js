@@ -287,7 +287,7 @@ else if( intent === "Recommendations")
     } else {
     let res =  JSON.parse(body); 
     
-    result  = res.restaurants;
+    result  = res;
     console.log(result);
   }
   }
