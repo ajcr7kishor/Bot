@@ -381,7 +381,7 @@ else{
   if(intent === "Recommendations")
   {
     let result = {
-      "restaurants" : info 
+      "restaurants" : {info} 
     };
     response = "Here's some recommendation for you";
     let responseObj = {
