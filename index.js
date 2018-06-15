@@ -264,51 +264,30 @@ else if( intent === "Recommendations")
   
   info = getreco(q);
   
- /* let response = "Here's some recommendation for you";
-  let responseObj = {
-                      fulfillmentText: response,
-                      fulfillmentMessages:[{
-                        "card": {
-                          "title": "card title",
-                          "subtitle": "card text",
-                          "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                          "buttons": [
-                            {
-                              "text": "button text",
-                              "postback": "https://assistant.google.com/"
-                            }
-                          ]
-                        }
-                      }],
-                      source:""
-                    }
-
-  return res.json(responseObj); 
-*/
   function cb(err,response,body) {
     if(err){
       console.log('error:', err);
     } else {
     let res =  JSON.parse(body); 
     
-    result  = res.places;
+    result  = res.restaurants;
     console.log(result);
   }
   }
   
   function getreco(query)
   {
-    let host = 'https://api.cognitive.microsoft.com';
-    let path = '/bing/v7.0/entities/';
+    let host = 'https://developers.zomato.com/api/v2.1/search?';
     let mkt = 'en-us';
-    let params = '?mkt=' + mkt + '&q=' + encodeURI(query);
-    
+    let user_key= 'b72880668e965dba942036fa10a81b93';
+    let entity_id = '6';
+    let entity_type = 'city';
+    let count = '10';
+    let params = `&entity_id=${entity_id}&entity_type=${entity_type}&count=${count}`;
     var options = {
-     uri : host+path+params,
-     headers : { 'Ocp-Apim-Subscription-Key' : '796f4fd405f94cfea639e68250ed99d5' ,
-                 'Host' : 'api.cognitive.microsoft.com',
+     uri : host+params,
+     headers : { 'user-key' : user_key ,
                  'Content-Type' : 'application/json',
-                 'X-Search-Location' : 'lat:47.60357;long:-122.3295;re:100'
                 }
 
     };
@@ -386,7 +365,7 @@ else{
   {
     response = "Here's some recommendation for you";
     let responseObj = {
-                      fulfillmentText: JSON.stringify(info),
+                      fulfillmentText: [JSON.stringify(info)],
                       fulfillmentMessages:[
                         {text :{text: [JSON.stringify(info)]}}
                       ],
