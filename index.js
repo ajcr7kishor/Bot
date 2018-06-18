@@ -120,82 +120,107 @@ else if(intent === "route") {
 
 
 else if(intent === "Traffic") {
-    
-  let city = req.body.queryResult.parameters['area']; 
-  //return city;
-  console.log(city);
-  //return city;// city is a required parameter
-  let result;
-  let res=undefined;
-  if (city === undefined ){
-    let latitude = req.body.queryResult.parameters['latitude']; 
-    let longitude = req.body.queryResult.parameters['longitude']; 
-    console.log("tt3");
-    //return "tt3";
-    info=tt2(latitude-0.5, longitude-0.5, latitude+0.5, longitude+0.5);
-    
-  }
-  else{
-    info = traffic1(city);
-  }  
-
-  function tt1(err,response,body) {
-    if(err){
-      console.log('error:', error);
-    } else {
-    var bodyy =  JSON.parse(body); 
-    var lat1  =  bodyy.resourceSets[0].resources[0].bbox[0]; //bbox[1];
-    console.log(lat1);
-  
-   var lon1  =  bodyy.resourceSets[0].resources[0].bbox[1];
-   var lat2  =  bodyy.resourceSets[0].resources[0].bbox[2];
-   var lon2  =  bodyy.resourceSets[0].resources[0].bbox[3];
-    tt2(lat1,lon1, lat2, lon2);
-  
-  }
-  }
-
-  function tt3(err, response, body){
-    console.log("tt3");
-    if(err){
-      console.log('error:', error);
-    } else {
-    var bodyy =  JSON.parse(body); 
-    res= "TRAFFIC///"
-    var len=bodyy.resourceSets[0].resources.length;
-    for (var i=0; i<len ;i++){
-      res+=bodyy.resourceSets[0].resources[i].point.coordinates[0]+";"+bodyy.resourceSets[0].resources[i].point.coordinates[1]+";"+bodyy.resourceSets[0].resources[i]['description']+";"+bodyy.resourceSets[0].resources[i]['detour']+"///";
-    }
-    if (res===null){
-      res="Sorry can't help you with that";
-    }
-    
-    
-  }
-}
-
-  function tt2(lat1,lon1,lat2,lon2){
-    
-    res = undefined;
-    url= "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+lat1+","+lon1+","+lat2+","+lon2+"?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
-    let req=request(url,tt3);
-    
-    
-  }
-
-  function traffic1 (area) {
-      result = undefined;
-      res=undefined;
-      // const ApiKey = '031e9ff47c244c51be165319182505';
-      // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
-      url = "http://dev.virtualearth.net/REST/v1/Locations/"+area+ "?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
-      let req = request(url, tt1);
-      while(res === undefined){
-          require('deasync').runLoopOnce();
+    let city = req.body.queryResult.parameters['area']; 
+        let lat;
+        let lon;
+      let result;
+      let urltraffic;
+      
+        if (city===undefined){
+            console.log("Entered!");
+         lat = req.body.queryResult.parameters['latitude']; 
+         lon = req.body.queryResult.parameters['longitude']; 
+          
+         urltraffic = "https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/"+lat+","+lon+"/15?mapSize=500,500&pp="+lat+","+lon+";21;AA&pp="+lat+","+lon+";;AB&pp="+lat+","+lon+";22&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
+          console.log(urltraffic);      
+        //   return url;
+        info=urltraffic;
+          console.log("hey")
+      //info= getCoordinate;s(lat, lon);
+        }
+      else{
+          console.log("Nope");
+        console.log(urltraffic); 
+        urltraffic="https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/"+city+"?mapLayer=TrafficFlow&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
+        
+          info= urltraffic;
       }
-      console.log(res);
-      return res;
-  }
+
+//   let city = req.body.queryResult.parameters['area']; 
+//   //return city;
+//   console.log(city);
+//   //return city;// city is a required parameter
+//   let result;
+//   let res=undefined;
+//   if (city === undefined ){
+//     let latitude = req.body.queryResult.parameters['latitude']; 
+//     let longitude = req.body.queryResult.parameters['longitude']; 
+//     console.log("tt3");
+//     //return "tt3";
+//     info=tt2(latitude-0.5, longitude-0.5, latitude+0.5, longitude+0.5);
+    
+//   }
+//   else{
+//     info = traffic1(city);
+//   }  
+
+//   function tt1(err,response,body) {
+//     if(err){
+//       console.log('error:', error);
+//     } else {
+//     var bodyy =  JSON.parse(body); 
+//     var lat1  =  bodyy.resourceSets[0].resources[0].bbox[0]; //bbox[1];
+//     console.log(lat1);
+  
+//    var lon1  =  bodyy.resourceSets[0].resources[0].bbox[1];
+//    var lat2  =  bodyy.resourceSets[0].resources[0].bbox[2];
+//    var lon2  =  bodyy.resourceSets[0].resources[0].bbox[3];
+//     tt2(lat1,lon1, lat2, lon2);
+  
+//   }
+//   }
+
+//   function tt3(err, response, body){
+//     console.log("tt3");
+//     if(err){
+//       console.log('error:', error);
+//     } else {
+//     var bodyy =  JSON.parse(body); 
+//     res= "TRAFFIC///"
+//     var len=bodyy.resourceSets[0].resources.length;
+//     for (var i=0; i<len ;i++){
+//       res+=bodyy.resourceSets[0].resources[i].point.coordinates[0]+";"+bodyy.resourceSets[0].resources[i].point.coordinates[1]+";"+bodyy.resourceSets[0].resources[i]['description']+";"+bodyy.resourceSets[0].resources[i]['detour']+"///";
+//     }
+//     if (res===null){
+//       res="Sorry can't help you with that";
+//     }
+    
+    
+//   }
+// }
+
+//   function tt2(lat1,lon1,lat2,lon2){
+    
+//     res = undefined;
+//     url= "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+lat1+","+lon1+","+lat2+","+lon2+"?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
+//     let req=request(url,tt3);
+    
+    
+//   }
+
+//   function traffic1 (area) {
+//       result = undefined;
+//       res=undefined;
+//       // const ApiKey = '031e9ff47c244c51be165319182505';
+//       // let url = `http://api.apixu.com/v1/current.json?key=${ApiKey}&q=${city}`; 
+//       url = "http://dev.virtualearth.net/REST/v1/Locations/"+area+ "?key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU" ;
+//       let req = request(url, tt1);
+//       while(res === undefined){
+//           require('deasync').runLoopOnce();
+//       }
+//       console.log(res);
+//       return res;
+//   }
 
 
   }
