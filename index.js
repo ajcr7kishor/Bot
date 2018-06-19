@@ -128,13 +128,13 @@ else if(intent === "Traffic") {
       
         if (city===undefined){
             console.log("Entered!");
-         lat = req.body.queryResult.parameters['latitude']; 
-         lon = req.body.queryResult.parameters['longitude']; 
+//          lat = req.body.queryResult.parameters['latitude']; 
+//          lon = req.body.queryResult.parameters['longitude']; 
           
-         urltraffic = "https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/"+lat+","+lon+"/15?mapSize=500,500&pp="+lat+","+lon+";21;AA&pp="+lat+","+lon+";;AB&pp="+lat+","+lon+";22&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
-          console.log(urltraffic);      
+//          urltraffic = "https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/"+lat+","+lon+"/15?mapSize=500,500&pp="+lat+","+lon+";21;AA&pp="+lat+","+lon+";;AB&pp="+lat+","+lon+";22&key=AnVhYPW82DyARXaZcuaJNpaNm9ydV-SwkQBWSX9ofuorRkE-z7kCCvNao6_kSvPU";
+//           console.log(urltraffic);      
         //   return url;
-        info=urltraffic;
+        info=Null;
           console.log("hey")
       //info= getCoordinate;s(lat, lon);
         }
