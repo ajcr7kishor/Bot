@@ -126,7 +126,7 @@ else if(intent === "Traffic") {
       let result;
       let urltraffic;
       
-        if (city===undefined){
+        if (city===undefined || city==="" || city===null){
             console.log("Entered!");
 //          lat = req.body.queryResult.parameters['latitude']; 
 //          lon = req.body.queryResult.parameters['longitude']; 
