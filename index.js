@@ -24,8 +24,10 @@ app.post('/webhook', function (req, res) {
     if (city=== undefined || city==="" || city===null){
       info="Null";
     }// city is a required parameter
-    let result;
-    info = getWeather(city);
+    else{
+      let result;
+      info = getWeather(city);
+    } 
 
     function cb(err,response,body) {
       if(err){
