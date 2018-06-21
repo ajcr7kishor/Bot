@@ -287,7 +287,7 @@ else if(intent === "Search")
 
     var options = {
      uri : host+path+params,
-     headers : { 'Ocp-Apim-Subscription-Key' : 'b50cbd015e18419ca59bf3b885071f97' ,
+     headers : { 'Ocp-Apim-Subscription-Key' : subscriptionKey ,
                  'Host' : 'api.cognitive.microsoft.com',
                  'Content-Type' : 'application/json'
                 }
