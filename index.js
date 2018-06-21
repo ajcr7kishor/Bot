@@ -279,7 +279,7 @@ else if(intent === "Search")
   
   function getinfo(query)
   {
-    let subscriptionKey = 'b50cbd015e18419ca59bf3b885071f97';
+    let subscriptionKey = '4b7e2fc6f92544f591979be883c74675';
     let host = 'https://api.cognitive.microsoft.com';
     let path = '/bing/v7.0/entities/';
     let mkt = 'en-us';
