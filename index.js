@@ -59,18 +59,19 @@ else if(intent === "route") {
     
   
   let fromPlace = req.body.queryResult.parameters['FromPlace']; 
+  let toPlace= req.body.queryResult.parameters['ToPlace'];
   // city is a required parameter
   if (fromPlace=== undefined || fromPlace==="" || fromPlace===null){
-    info="Routeswithoutfromplace";
+    info="Routeswithoutfromplace####"+toPlace+"###";
   }
   else{
-    let toPlace= req.body.queryResult.parameters['ToPlace'];
+    
     let path='driving';
     if (req.body.queryResult.parameters['TravelWay']){
       path= req.body.queryResult.parameters['TravelWay'];
     }
     let result;
-    info = getRoute(fromPlace,toPlace,path); //Done till here
+    info = "Route####"+toPlace+"###"+fromPlace; //Done till here
   } 
 
   
