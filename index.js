@@ -71,7 +71,7 @@ else if(intent === "route") {
       path= req.body.queryResult.parameters['TravelWay'];
     }
     let result;
-    info = "Route####"+toPlace+"###"+fromPlace; //Done till here
+    info = "Route####"+toPlace+"###"+fromPlace+"###"; //Done till here
   } 
 
   
