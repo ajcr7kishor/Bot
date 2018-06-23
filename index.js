@@ -57,14 +57,21 @@ app.post('/webhook', function (req, res) {
 
 else if(intent === "route") {
     
-  let fromPlace = req.body.queryResult.parameters['FromPlace']; // city is a required parameter
-  let toPlace= req.body.queryResult.parameters['ToPlace'];
-  let path='driving';
-  if (req.body.queryResult.parameters['TravelWay']){
-    path= req.body.queryResult.parameters['TravelWay'];
+  
+  let fromPlace = req.body.queryResult.parameters['FromPlace']; 
+  // city is a required parameter
+  if (fromPlace=== undefined || fromPlace==="" || fromPlace===null){
+    info="Routeswithoutfromplace";
   }
-  let result;
-  info = getRoute(fromPlace,toPlace,path); //Done till here
+  else{
+    let toPlace= req.body.queryResult.parameters['ToPlace'];
+    let path='driving';
+    if (req.body.queryResult.parameters['TravelWay']){
+      path= req.body.queryResult.parameters['TravelWay'];
+    }
+    let result;
+    info = getRoute(fromPlace,toPlace,path); //Done till here
+  } 
 
   
 
